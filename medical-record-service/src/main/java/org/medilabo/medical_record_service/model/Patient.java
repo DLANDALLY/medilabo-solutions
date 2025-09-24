@@ -17,7 +17,7 @@ public class Patient {
 
     private LocalDate dateOfBirth;
 
-    private LocalDate createAt = LocalDate.now();
+    private LocalDate createAt;
 
     private String gender;
 
