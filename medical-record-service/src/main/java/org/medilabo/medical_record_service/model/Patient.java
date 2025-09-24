@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@Builder
 public class Patient {
     private Long id;
 

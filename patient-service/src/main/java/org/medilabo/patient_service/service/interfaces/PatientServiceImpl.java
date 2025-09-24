@@ -20,7 +20,8 @@ public class PatientServiceImpl implements IPatient{
 
     @Override
     public Patient getPatientById(Long id) {
-        return null;
+        return patientRepository.findById(id)
+                .orElseThrow();
     }
 
     @Override
