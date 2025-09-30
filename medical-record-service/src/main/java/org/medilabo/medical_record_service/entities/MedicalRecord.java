@@ -2,32 +2,17 @@ package org.medilabo.medical_record_service.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.medilabo.medical_record_service.model.Patient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Table(name = "medical_records")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Document(collection = "medicals")
 public class MedicalRecord {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @Lob
+    private String id;
     private String note;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
+    private LocalDateTime createdAt;
     private String createdBy; // ou relation vers Practicien
-
     private Long  patientId;
-
-    @Transient
-    private Patient patient;
 }

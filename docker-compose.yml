@@ -58,6 +58,7 @@ services:
       - DISCOVERY_SERVICE_URL=http://medilabo-discovery-service:8761/eureka
       - CONFIG_SERVICE_URL=http://medilabo-config-service:9999
       - eureka.client.service-url.defaultZone=http://medilabo-discovery-service:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://medical-db:27017/medicalsdb
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
       interval: 10s
@@ -84,3 +85,11 @@ services:
     depends_on:
       medilabo-config-service:
         condition: service_healthy
+
+  medical-db:
+    image: mongo:6
+    container_name: medical-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: medicalsdb
