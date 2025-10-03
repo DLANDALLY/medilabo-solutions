@@ -1,23 +1,27 @@
-package org.medilabo.patient_service.service.interfaces;
+package org.medilabo.patient_service.service;
 
 import jakarta.ws.rs.NotFoundException;
-import lombok.AllArgsConstructor;
 import org.medilabo.patient_service.dtos.PatientDto;
+import org.medilabo.patient_service.dtos.PatientEvent;
 import org.medilabo.patient_service.entites.Patient;
 import org.medilabo.patient_service.repositories.PatientRepository;
+import org.medilabo.patient_service.service.interfaces.IPatient;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PatientServiceImpl implements IPatient{
+public class PatientServiceImpl implements IPatient {
     private final PatientRepository patientRepository;
     private final ModelMapper modelMapper;
+    private final KafkaTemplate<String, PatientEvent> kafkaTemplate;
 
-    public PatientServiceImpl(PatientRepository patientRepository, ModelMapper modelMapper) {
+    public PatientServiceImpl(PatientRepository patientRepository, ModelMapper modelMapper, KafkaTemplate<String, PatientEvent> kafkaTemplate) {
         this.patientRepository = patientRepository;
         this.modelMapper = modelMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -43,12 +47,17 @@ public class PatientServiceImpl implements IPatient{
 
     @Override
     public Patient createPatient(PatientDto patientDto) {
-
-        Patient patient = modelMapper.map(patientDto, Patient.class);
-        if (patientRepository.findAll().contains(patient)){
+        Patient patient1 = modelMapper.map(patientDto, Patient.class);
+        if (patientRepository.findAll().contains(patient1))
             throw new RuntimeException("The patient ");
-        }
-        return saving(patient);
+
+        Patient patient = saving(patient1);
+        PatientEvent event = new PatientEvent(patient.getId(), patient.getFirstName(),
+                patient.getLastName(), patient.getDateOfBirth(), patient.getCreateAt(), patient.getGender().toString());
+
+        kafkaTemplate.send("patient-events",event);
+        System.out.println("# Savaing - "+ patient.getFirstName());
+        return patient;
     }
 
     @Override

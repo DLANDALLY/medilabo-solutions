@@ -12,9 +12,9 @@ public interface IMedicalRecord {
 
     List<MedicalRecord> getAllMedicalRecords();
 
-    MedicalRecord getMedicalRecordById(String id);
-
     void delete(String id);
 
-    List<HistoricalDto> getAllMedicalHistorical(List<Patient> patients);
+    List<HistoricalDto> getAllMedicalHistorical();
+
+    HistoricalDto getMedicalHistoryByPatientId(Long patientId);
 }

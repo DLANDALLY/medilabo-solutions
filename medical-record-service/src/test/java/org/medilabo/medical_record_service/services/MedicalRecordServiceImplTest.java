@@ -6,19 +6,19 @@ import static org.mockito.Mockito.mock;
 
 class MedicalRecordServiceImplTest {
 
-    @Test
-    void save() {
-    }
-
-    @Test
-    void getAllMedicalRecords() {
-    }
-
-    @Test
-    void getMedicalRecordById() {
-    }
-
-    @Test
-    void delete() {
-    }
+//    @Test
+//    void save() {
+//    }
+//
+//    @Test
+//    void getAllMedicalRecords() {
+//    }
+//
+//    @Test
+//    void getMedicalRecordById() {
+//    }
+//
+//    @Test
+//    void delete() {
+//    }
 }

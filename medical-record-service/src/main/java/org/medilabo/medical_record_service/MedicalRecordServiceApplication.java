@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
-@EnableFeignClients
 public class MedicalRecordServiceApplication {
 
 	public static void main(String[] args) {
