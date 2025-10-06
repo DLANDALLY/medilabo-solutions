@@ -1,10 +1,8 @@
 package org.medilabo.patient_service;
 
 import org.medilabo.patient_service.config.GloblaConfig;
-import org.medilabo.patient_service.dtos.PatientDto;
-import org.medilabo.patient_service.entites.Patient;
+import org.medilabo.patient_service.dtos.AddPatientDto;
 import org.medilabo.patient_service.entites.enums.EGender;
-import org.medilabo.patient_service.repositories.PatientRepository;
 import org.medilabo.patient_service.service.PatientServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @SpringBootApplication
 @EnableConfigurationProperties(GloblaConfig.class)
@@ -26,7 +23,7 @@ public class PatientServiceApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(PatientServiceImpl service){
 		return args -> {
-			PatientDto p1 = PatientDto.builder()
+			AddPatientDto p1 = AddPatientDto.builder()
 					.firstName("Test")
 					.lastName("TestNone")
 					.dateOfBirth(LocalDate.of(1966,12,31))
@@ -37,7 +34,7 @@ public class PatientServiceApplication {
 					.build();
 			service.createPatient(p1);
 
-			PatientDto p2 = PatientDto.builder()
+			AddPatientDto p2 = AddPatientDto.builder()
 					.firstName("Test2")
 					.lastName("TestBorderline")
 					.dateOfBirth(LocalDate.of(1945,6,24))
@@ -48,7 +45,7 @@ public class PatientServiceApplication {
 					.build();
 			service.createPatient(p2);
 
-			PatientDto p3 = PatientDto.builder()
+			AddPatientDto p3 = AddPatientDto.builder()
 					.firstName("Test3")
 					.lastName("TestInDanger")
 					.dateOfBirth(LocalDate.of(2004,6,18))
@@ -59,7 +56,7 @@ public class PatientServiceApplication {
 					.build();
 			service.createPatient(p3);
 
-			PatientDto p4 = PatientDto.builder()
+			AddPatientDto p4 = AddPatientDto.builder()
 					.firstName("Test4")
 					.lastName("TestEarlyOnset")
 					.dateOfBirth(LocalDate.of(2002,6,28))

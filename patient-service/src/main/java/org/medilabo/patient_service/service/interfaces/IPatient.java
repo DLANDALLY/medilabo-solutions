@@ -1,6 +1,8 @@
 package org.medilabo.patient_service.service.interfaces;
 
-import org.medilabo.patient_service.dtos.PatientDto;
+import jakarta.validation.Valid;
+import org.medilabo.patient_service.dtos.AddPatientDto;
+import org.medilabo.patient_service.dtos.UpdatePatientDto;
 import org.medilabo.patient_service.entites.Patient;
 
 import java.util.List;
@@ -10,9 +12,7 @@ public interface IPatient {
 
     Patient getPatientById(Long id);
 
-    Patient updatePatient(Long id, PatientDto patientDto);
+    Patient updatePatient(@Valid Long id, UpdatePatientDto updatePatientDto);
 
-    Patient createPatient(PatientDto patientDto);
-
-    boolean deletePatient(Long id);
+    Patient createPatient(@Valid AddPatientDto addPatientDto);
 }

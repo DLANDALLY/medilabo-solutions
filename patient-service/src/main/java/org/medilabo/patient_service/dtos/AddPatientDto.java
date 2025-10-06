@@ -6,13 +6,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter @Setter @Builder
-public class PatientDto {
+public class AddPatientDto {
     private Long id;
 
     @NotBlank(message = "First name cannot be empty")

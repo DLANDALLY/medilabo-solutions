@@ -1,9 +1,11 @@
 package org.medilabo.patient_service.service;
 
 import jakarta.ws.rs.NotFoundException;
-import org.medilabo.patient_service.dtos.PatientDto;
+import org.medilabo.patient_service.dtos.AddPatientDto;
 import org.medilabo.patient_service.dtos.PatientEvent;
+import org.medilabo.patient_service.dtos.UpdatePatientDto;
 import org.medilabo.patient_service.entites.Patient;
+import org.medilabo.patient_service.exception.ResourceNotFoundException;
 import org.medilabo.patient_service.repositories.PatientRepository;
 import org.medilabo.patient_service.service.interfaces.IPatient;
 import org.modelmapper.ModelMapper;
@@ -32,41 +34,46 @@ public class PatientServiceImpl implements IPatient {
     @Override
     public Patient getPatientById(Long id) {
         return patientRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("The Patient n°"+ id +" does not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("The Patient n°"+ id +" does not exist"));
     }
 
     @Override
-    public Patient updatePatient(Long id, PatientDto patientDto) {
-        if (!existsById(id))
-            throw new NotFoundException("The Patient n°"+ id +" does not exist");
+    public Patient updatePatient(Long id, UpdatePatientDto updatePatientDto) {
         Patient patientDB = getPatientById(id);
-        modelMapper.map(patientDto, patientDB);
+        modelMapper.map(updatePatientDto, patientDB);
 
-        return saving(patientDB);
-    }
-
-    @Override
-    public Patient createPatient(PatientDto patientDto) {
-        Patient patient1 = modelMapper.map(patientDto, Patient.class);
-        if (patientRepository.findAll().contains(patient1))
-            throw new RuntimeException("The patient ");
-
-        Patient patient = saving(patient1);
-        PatientEvent event = new PatientEvent(patient.getId(), patient.getFirstName(),
-                patient.getLastName(), patient.getDateOfBirth(), patient.getCreateAt(), patient.getGender().toString());
-
-        kafkaTemplate.send("patient-events",event);
-        System.out.println("# Savaing - "+ patient.getFirstName());
+        Patient patient = saving(patientDB);
+        publishPatientEvent(patient);
         return patient;
     }
 
     @Override
-    public boolean deletePatient(Long id) {
-        return false;
+    public Patient createPatient(AddPatientDto addPatientDto) {
+        Patient patient1 = modelMapper.map(addPatientDto, Patient.class);
+        if (patientRepository.findAll().contains(patient1))
+            throw new RuntimeException("The patient already exist");
+
+        Patient patient = saving(patient1);
+        publishPatientEvent(patient);
+        return patient;
     }
 
-    private boolean existsById(Long id){
-        return patientRepository.existsById(id);
+    /**
+     * Publishes a Kafka event containing the patient's information
+     * @param patient The patient whose information will be sent in the event
+     */
+    private void publishPatientEvent(Patient patient){
+        if (patient == null)
+            throw new NullPointerException("Cannot publish event, the patient object is null");
+
+        PatientEvent event = new PatientEvent(
+                patient.getId(),
+                patient.getFirstName(),
+                patient.getLastName(),
+                patient.getDateOfBirth(),
+                patient.getCreateAt(),
+                patient.getGender().toString());
+        kafkaTemplate.send("patient-events",event);
     }
 
     private Patient saving(Patient patient){

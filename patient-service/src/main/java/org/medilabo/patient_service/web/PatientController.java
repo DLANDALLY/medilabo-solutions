@@ -1,6 +1,8 @@
 package org.medilabo.patient_service.web;
 
-import org.medilabo.patient_service.dtos.PatientDto;
+import jakarta.validation.Valid;
+import org.medilabo.patient_service.dtos.AddPatientDto;
+import org.medilabo.patient_service.dtos.UpdatePatientDto;
 import org.medilabo.patient_service.entites.Patient;
 import org.medilabo.patient_service.service.interfaces.IPatient;
 import org.springframework.http.HttpStatus;
@@ -32,20 +34,20 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody PatientDto patientDto){
-        return ResponseEntity.status(200).body(patientService.updatePatient(id, patientDto));
+    public ResponseEntity<Patient> updatePatient(@PathVariable Long id,@Valid @RequestBody UpdatePatientDto updatePatientDto){
+        return ResponseEntity.status(200).body(patientService.updatePatient(id, updatePatientDto));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Patient> createPatient(@RequestBody PatientDto patientDto) {
-        Patient created = patientService.createPatient(patientDto);
+    public ResponseEntity<Patient> createPatient(@Valid @RequestBody AddPatientDto addPatientDto) {
+        Patient created = patientService.createPatient(addPatientDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-        if (patientService.deletePatient(id))
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.notFound().build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
+//        if (patientService.deletePatient(id))
+//            return ResponseEntity.noContent().build();
+//        return ResponseEntity.notFound().build();
+//    }
 }
