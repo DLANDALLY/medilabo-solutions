@@ -16,8 +16,6 @@ public class PatientEventHandler {
 
     @KafkaListener(topics = "patient-events", groupId = "medical-record-service")
     public void consumePatientEvent(PatientEvent event) {
-        System.out.println("✅ Listener déclenché !");
-        System.out.println("📥 Event reçu : " + event.getLastName());
         PatientLocal patient = new PatientLocal(
                 event.getId(),
                 event.getFirstName(),

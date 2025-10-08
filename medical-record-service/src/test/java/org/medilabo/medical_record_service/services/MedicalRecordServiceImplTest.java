@@ -1,24 +1,28 @@
 package org.medilabo.medical_record_service.services;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.mock;
-
+import static org.junit.jupiter.api.Assertions.*;
 class MedicalRecordServiceImplTest {
 
-//    @Test
-//    void save() {
-//    }
-//
-//    @Test
-//    void getAllMedicalRecords() {
-//    }
-//
-//    @Test
-//    void getMedicalRecordById() {
-//    }
-//
-//    @Test
-//    void delete() {
-//    }
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void getAllMedicalHistorical() {
+    }
+
+    @Test
+    void getMedicalHistoryByPatientId() {
+    }
+
+    @Test
+    void addNewNote() {
+    }
+
+    @Test
+    void createMedicalRecord() {
+    }
 }

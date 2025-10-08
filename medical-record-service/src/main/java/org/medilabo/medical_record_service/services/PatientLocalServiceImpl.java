@@ -1,5 +1,6 @@
 package org.medilabo.medical_record_service.services;
 
+import jakarta.ws.rs.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.medilabo.medical_record_service.entities.PatientLocal;
 import org.medilabo.medical_record_service.repositories.PatientLocalRepository;
@@ -20,6 +21,7 @@ public class PatientLocalServiceImpl implements IPatientLocal {
 
     @Override
     public PatientLocal getPatientLocalById(Long id){
-        return patientRepository.findById(id).orElseThrow();
+        return patientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("The Patient not found with ID: "+ id));
     }
 }

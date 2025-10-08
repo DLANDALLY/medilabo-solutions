@@ -13,6 +13,6 @@ public class MedicalRecord {
     private String id;
     private String note;
     private LocalDateTime createdAt;
-    private String createdBy; // ou relation vers Practicien
+    private String createdBy;
     private Long  patientId;
 }

@@ -6,7 +6,6 @@ import org.medilabo.medical_record_service.dtos.MedicalHistoricalDto;
 import org.medilabo.medical_record_service.dtos.MedicalRecordDto;
 import org.medilabo.medical_record_service.entities.MedicalRecord;
 import org.medilabo.medical_record_service.entities.PatientLocal;
-import org.medilabo.medical_record_service.model.Patient;
 import org.medilabo.medical_record_service.repositories.MedicalRecordRepository;
 import org.medilabo.medical_record_service.repositories.PatientLocalRepository;
 import org.medilabo.medical_record_service.services.interfaces.IMedicalRecord;
@@ -14,6 +13,8 @@ import org.medilabo.medical_record_service.services.interfaces.IPatientLocal;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,21 +22,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class MedicalRecordServiceImpl implements IMedicalRecord {
-    private MedicalRecordRepository mongoRepository;
-    private final PatientLocalRepository patientLocalRepository;
+    private MedicalRecordRepository medicalRepository;
     private final ModelMapper modelMapper;
     private final IPatientLocal patientService;
-
-    @Override public List<MedicalRecord> getAllMedicalRecords() { return mongoRepository.findAll(); }
-    @Override public void delete(String id) { mongoRepository.deleteById(id); }
-
-    @Override
-    public MedicalRecord createMedicalRecord(MedicalRecordDto medicalRecordDto) {
-        if (medicalRecordDto == null)
-            throw new NullPointerException("The form cannot be null");
-        MedicalRecord medicalRecord = modelMapper.map(medicalRecordDto, MedicalRecord.class);
-        return mongoRepository.save(medicalRecord);
-    }
 
     @Override
     public List<HistoricalDto> getAllMedicalHistorical() {
@@ -55,20 +44,44 @@ public class MedicalRecordServiceImpl implements IMedicalRecord {
     }
 
     @Override
-    public HistoricalDto getMedicalHistoryByPatientId(Long patientId) {
-        List<MedicalRecord> medicalRecords = mongoRepository.findAll()
-                .stream()
-                .filter(mr -> mr.getPatientId().equals(patientId))
+    public HistoricalDto getMedicalHistoryByPatientId(Long patientId){
+        PatientLocal patientLocal = patientService.getPatientLocalById(patientId);
+        List<MedicalRecord> medicalRecords = medicalRepository.findByPatientId(patientId);
+        List<MedicalHistoricalDto> mhdDtos = medicalRecords.stream()
+                .map(mhd -> modelMapper.map(mhd, MedicalHistoricalDto.class))
                 .toList();
 
-        List<MedicalHistoricalDto> mhdList = medicalRecords.stream().map(mr -> {
-            MedicalHistoricalDto mhd = new MedicalHistoricalDto();
-            mhd.setId(mr.getId());
-            mhd.setNote(mr.getNote());
-            return mhd;
-        }) .toList();
-
-        PatientLocal patientLocal = patientService.getPatientLocalById(patientId);
-        return new HistoricalDto(patientLocal, mhdList);
+        return new HistoricalDto(patientLocal, mhdDtos);
     }
+
+    @Override
+    public HistoricalDto addNewNote(Long patientId, MedicalHistoricalDto mhd) {
+        HistoricalDto hd = getMedicalHistoryByPatientId(patientId);
+
+        if (hd.getMedicalHistoricalDtos().isEmpty())
+            hd.setMedicalHistoricalDtos(new ArrayList<>());
+        hd.getMedicalHistoricalDtos().add(mhd);
+        createMedicalRecord(patientId, mhd);
+        return hd;
+    }
+
+    private void createMedicalRecord(Long patientId, MedicalHistoricalDto mhd){
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setNote(mhd.getNote());
+        medicalRecord.setCreatedBy("Praticien 1");
+        medicalRecord.setCreatedAt(LocalDateTime.now());
+        medicalRecord.setPatientId(patientId);
+
+        medicalRepository.save(medicalRecord);
+    }
+
+    @Override
+    public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
+        if (medicalRecord == null)
+            throw new NullPointerException("The form cannot be null");
+        return medicalRepository.save(medicalRecord);
+    }
+
+    private List<MedicalRecord> getAllMedicalRecords() { return medicalRepository.findAll(); }
+
 }

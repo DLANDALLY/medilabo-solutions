@@ -29,6 +29,18 @@ public class MedicalRecordServiceApplication {
 							.patientId(1L)
 							.build(),
 					MedicalRecord.builder()
+							.note("Test 3 note description")
+							.createdAt(LocalDateTime.now())
+							.createdBy("Praticien 1")
+							.patientId(1L)
+							.build(),
+					MedicalRecord.builder()
+							.note("Test 4 note description")
+							.createdAt(LocalDateTime.now())
+							.createdBy("Praticien 1")
+							.patientId(1L)
+							.build(),
+					MedicalRecord.builder()
 							.note("Test 2 note description")
 							.createdAt(LocalDateTime.now())
 							.createdBy("Praticien 2")
