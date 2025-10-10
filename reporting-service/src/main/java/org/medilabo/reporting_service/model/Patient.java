@@ -1,24 +1,17 @@
-package org.medilabo.medical_record_service.model;
+package org.medilabo.reporting_service.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter @ToString @Builder
+@Getter @Setter
 public class Patient {
+    @Id
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
     private LocalDate dateOfBirth;
-
-    private LocalDate createAt;
-
     private String gender;
 
-    private String postalAddress;
-
-    private String phoneNumber;
 }

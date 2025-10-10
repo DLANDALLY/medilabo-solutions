@@ -14,11 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class MedicalRecordController {
     private IMedicalRecord medicalRecordService;
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllMedicalRecord(){
-        return ResponseEntity.ok(medicalRecordService.getAllMedicalHistorical());
-    }
-
     @GetMapping("/{patientId}")
     public ResponseEntity<HistoricalDto> getMedicalRecordById(@PathVariable Long patientId) {
         return ResponseEntity.ok(medicalRecordService.getMedicalHistoryByPatientId(patientId));

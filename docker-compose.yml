@@ -64,7 +64,27 @@ services:
       interval: 10s
       retries: 4
     depends_on:
-      medilabo-patient-service:
+      medilabo-config-service:
+        condition: service_healthy
+
+  medilabo-reporting-service:
+    build: ./reporting-service
+    container_name: reporting-service
+    ports:
+      - '8083:8083'
+    expose:
+      - '8083'
+    environment:
+      - DISCOVERY_SERVICE_URL=http://medilabo-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://medilabo-config-service:9999
+      - eureka.client.service-url.defaultZone=http://medilabo-discovery-service:8761/eureka
+      - SPRING_DATA_MONGODB_URI=mongodb://medical-db:27017/medicalsdb
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
+      interval: 10s
+      retries: 4
+    depends_on:
+      medilabo-config-service:
         condition: service_healthy
 
   medilabo-gateway-service:

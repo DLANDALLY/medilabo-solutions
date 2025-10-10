@@ -9,5 +9,5 @@ import java.util.List;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class HistoricalDto {
     private PatientLocal patient;
-    private List<MedicalHistoricalDto> medicalHistoricalDtos = new ArrayList<>();;
+    private List<MedicalHistoricalDto> medicalHistoricalDtos;
 }

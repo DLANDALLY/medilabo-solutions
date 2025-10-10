@@ -18,11 +18,7 @@ public class PatientEventHandler {
     public void consumePatientEvent(PatientEvent event) {
         PatientLocal patient = new PatientLocal(
                 event.getId(),
-                event.getFirstName(),
-                event.getLastName(),
-                event.getDateOfBirth(),
-                event.getCreateAt(),
-                event.getGender()
+                event.getLastName()
         );
         repository.save(patient);
     }

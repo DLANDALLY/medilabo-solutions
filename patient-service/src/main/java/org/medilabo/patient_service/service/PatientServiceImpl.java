@@ -68,11 +68,7 @@ public class PatientServiceImpl implements IPatient {
 
         PatientEvent event = new PatientEvent(
                 patient.getId(),
-                patient.getFirstName(),
-                patient.getLastName(),
-                patient.getDateOfBirth(),
-                patient.getCreateAt(),
-                patient.getGender().toString());
+                patient.getLastName());
         kafkaTemplate.send("patient-events",event);
     }
 

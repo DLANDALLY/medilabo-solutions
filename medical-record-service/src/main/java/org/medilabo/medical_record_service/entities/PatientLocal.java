@@ -14,9 +14,5 @@ import java.time.LocalDate;
 public class PatientLocal {
     @Id
     private Long id;
-    private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
-    private LocalDate createdAt;
-    private String gender;
 }
