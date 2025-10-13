@@ -1,11 +1,11 @@
 package org.medilabo.reporting_service;
 
-import org.medilabo.reporting_service.config.BusinessRulesProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableFeignClients
 public class ReportingServiceApplication {
 
 	public static void main(String[] args) {

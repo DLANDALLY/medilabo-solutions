@@ -3,6 +3,7 @@ package org.medilabo.reporting_service.config;
 import lombok.AllArgsConstructor;
 import org.medilabo.reporting_service.model.ReportingPatient;
 import org.medilabo.reporting_service.model.Alert;
+import org.medilabo.reporting_service.model.Rule;
 import org.medilabo.reporting_service.services.interfaces.IBusinessRule;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +17,11 @@ public class RuleEngine {
     private final BusinessRulesProperties properties;
 
     public Optional<String> evaluate(ReportingPatient rp) {
-        System.out.println("# Reporting 3 #");
 
-        for (RuleConfig rule : properties.getRules()) {
-            System.out.println("# Reporting 3.1 #");
+        for (Rule rule : properties.getRules()) {
             try {
-                System.out.println("# Reporting 3.2 #");
                 // Si la règle correspond
                 if (rule.getHandlerClass() != null) {
-                    System.out.println("# Reporting 3.3 #");
                     IBusinessRule customRule = (IBusinessRule)
                             Class.forName(rule.getHandlerClass())
                                     .getDeclaredConstructor()
@@ -32,11 +29,9 @@ public class RuleEngine {
                     Optional<String> result = customRule.evaluate(rp);
                     if (result.isPresent()) return result;
                 } else if (rule.matches(rp)) {
-                    System.out.println("# Reporting 3.4 ELSE IF #");
                     return Optional.of(rule.getAlertType());
                 }
             } catch (Exception e) {
-                System.out.println("# Reporting 3.5 exception #");
                 throw new RuntimeException("Erreur lors du chargement de la règle : " + rule.getName(), e);
             }
         }
@@ -50,7 +45,7 @@ public class RuleEngine {
                 .collect(Collectors.toList());
     }
 
-    private boolean matches(RuleConfig rule, ReportingPatient rp) {
+    private boolean matches(Rule rule, ReportingPatient rp) {
         boolean genderOk = "*".equals(rule.getGender()) ||
                 rule.getGender().equalsIgnoreCase(rp.getGenre());
 

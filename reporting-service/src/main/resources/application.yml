@@ -1,47 +1,10 @@
-business-rules:
-  rules:
-    - name: InDangerMale
-      gender: M
-      maxAge: 30
-      minTriggers: 3
-      alertType: In Danger
-      message: "Cette Homme est en danger"
+spring:
+  config:
+    import:
+      - classpath:rules.yml
+      - classpath:triggers.yml
 
-    - name: InDangerFemale
-      gender: F
-      maxAge: 30
-      minTriggers: 4
-      alertType: In Danger
-      message: "Cette Femme en danger"
-
-    - name: InDangerAdult
-      gender: "*"
-      minAge: 31
-      minTriggers: 3
-      alertType: In Danger
-      message: "Ce patient est en danger"
-
-    - name: EarlyOnsetMale
-      gender: M
-      maxAge: 30
-      minTriggers: 5
-      alertType: Early Onset
-      message: "Symptômes précoces chez un homme"
-
-    - name: EarlyOnsetFemale
-      gender: F
-      maxAge: 30
-      minTriggers: 7
-      alertType: Early Onset
-      message: "Symptômes précoces chez une femme"
-
-    - name: EarlyOnsetAdult
-      gender: "*"
-      minAge: 31
-      minTriggers: 8
-      alertType: Early Onset
-      message: "Symptômes précoces chez un adulte"
-
-    - name: Borderline
-      handlerClass: org.medilabo.reporting_service.services.riskLevel.Borderline
-
+  cloud:
+    openfeign:
+      discovery:
+        enabled: true

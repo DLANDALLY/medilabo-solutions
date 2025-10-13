@@ -1,0 +1,13 @@
+business-triggers:
+  triggers:
+    - name: Hémoglobine A1C
+    - name: Microalbumine
+    - name: Taille
+    - name: Poids
+    - name: Fumeur/Fumeuse
+    - name: Anormal
+    - name: Cholestérol
+    - name: Vertiges
+    - name: Rechute
+    - name: Réaction
+    - name: Anticorps

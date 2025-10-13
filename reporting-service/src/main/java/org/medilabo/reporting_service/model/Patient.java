@@ -1,17 +1,18 @@
 package org.medilabo.reporting_service.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.medilabo.reporting_service.model.enums.EGender;
 
 import java.time.LocalDate;
 
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder @ToString
 public class Patient {
-    @Id
     private Long id;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
-    private String gender;
-
+    private LocalDate createAt;
+    private EGender gender;
+    private String postalAddress;
+    private String phoneNumber;
 }

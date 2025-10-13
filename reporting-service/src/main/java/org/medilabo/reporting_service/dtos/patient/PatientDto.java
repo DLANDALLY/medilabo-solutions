@@ -1,12 +1,11 @@
 package org.medilabo.reporting_service.dtos.patient;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter @Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Builder @ToString
 public class PatientDto {
     private Long id;
     private LocalDate dateOfBirth;

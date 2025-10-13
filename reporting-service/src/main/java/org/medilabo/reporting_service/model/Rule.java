@@ -1,10 +1,9 @@
-package org.medilabo.reporting_service.config;
+package org.medilabo.reporting_service.model;
 
 import lombok.*;
-import org.medilabo.reporting_service.model.ReportingPatient;
 
 @Data
-public class RuleConfig {
+public class Rule {
     private String name;
     private String gender;
     private Integer minAge;
