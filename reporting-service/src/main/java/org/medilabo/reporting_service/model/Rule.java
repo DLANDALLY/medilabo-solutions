@@ -2,7 +2,7 @@ package org.medilabo.reporting_service.model;
 
 import lombok.*;
 
-@Data
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Rule {
     private String name;
     private String gender;

@@ -2,15 +2,13 @@ package org.medilabo.reporting_service.services.fallBack;
 
 import org.medilabo.reporting_service.client.IPatientClient;
 import org.medilabo.reporting_service.dtos.medicalRecord.HistoricalDto;
-import org.medilabo.reporting_service.dtos.patient.PatientDto;
 import org.medilabo.reporting_service.model.Patient;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class PatientFallback implements IPatientClient {
+public class ClientFallback implements IPatientClient {
     @Override
     public Patient getPatientById(Long id) {
         System.out.println("Fallback exécuté pour patient " + id);

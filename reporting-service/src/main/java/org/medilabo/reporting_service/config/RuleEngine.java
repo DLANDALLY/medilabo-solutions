@@ -1,61 +1,76 @@
 package org.medilabo.reporting_service.config;
 
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.medilabo.reporting_service.exceptions.RuleEvaluationException;
 import org.medilabo.reporting_service.model.ReportingPatient;
-import org.medilabo.reporting_service.model.Alert;
 import org.medilabo.reporting_service.model.Rule;
 import org.medilabo.reporting_service.services.interfaces.IBusinessRule;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Component
-@AllArgsConstructor
 public class RuleEngine {
     private final BusinessRulesProperties properties;
 
-    public Optional<String> evaluate(ReportingPatient rp) {
+    public RuleEngine(BusinessRulesProperties properties) {
+        this.properties = properties;
+    }
 
+    /**
+     * Evaluates all configured business rules for a given reporting patient.
+     * <p>
+     * The method iterates through each rule defined in the configuration and checks whether
+     * the patient data satisfies the rule conditions. If a custom handler is defined, it is
+     * executed dynamically using reflection; otherwise, the rule's default matching logic is applied.
+     * </p>
+     *
+     * @param reportingPatient the patient data to evaluate against the rules
+     * @return an {@link Optional} containing the alert type if a rule is triggered, or an empty {@code Optional} if none match
+     * @throws RuleEvaluationException if an error occurs while loading or evaluating a rule
+     */
+    public Optional<String> evaluate(ReportingPatient reportingPatient) {
         for (Rule rule : properties.getRules()) {
             try {
-                // Si la règle correspond
-                if (rule.getHandlerClass() != null) {
-                    IBusinessRule customRule = (IBusinessRule)
-                            Class.forName(rule.getHandlerClass())
-                                    .getDeclaredConstructor()
-                                    .newInstance();
-                    Optional<String> result = customRule.evaluate(rp);
-                    if (result.isPresent()) return result;
-                } else if (rule.matches(rp)) {
-                    return Optional.of(rule.getAlertType());
-                }
+                if (hasCustomHandler(rule)) {
+                    Optional<String> result = executeCustomRule(rule, reportingPatient);
+                    if (result.isPresent()) return result;}
+                else if (rule.matches(reportingPatient)) {
+                    return Optional.of(rule.getAlertType());}
+
             } catch (Exception e) {
-                throw new RuntimeException("Erreur lors du chargement de la règle : " + rule.getName(), e);
+                log.error("Error during rule evaluation: {}", rule.getName(), e);
+                throw new RuleEvaluationException("Error while loading rule: "+ rule.getName());
             }
         }
         return Optional.empty();
     }
 
-    public List<Alert> evaluateAll(ReportingPatient patient) {
-        return properties.getRules().stream()
-                .filter(rule -> matches(rule, patient))
-                .map(rule -> new Alert(rule.getAlertType(), rule.getMessage()))
-                .collect(Collectors.toList());
+    /**
+     * Checks whether the given rule provides a custom handler
+     *
+     * @param rule the rule to check
+     * @return {@code true} if the rule defines a custom handler, {@code false} otherwise
+     */
+    private boolean hasCustomHandler(Rule rule) {
+        return rule.getHandlerClass() != null && !rule.getHandlerClass().isBlank();
     }
 
-    private boolean matches(Rule rule, ReportingPatient rp) {
-        boolean genderOk = "*".equals(rule.getGender()) ||
-                rule.getGender().equalsIgnoreCase(rp.getGenre());
-
-        boolean ageOk = true;
-        if (rule.getMinAge() != null) ageOk &= rp.getAge() >= rule.getMinAge();
-        if (rule.getMaxAge() != null) ageOk &= rp.getAge() <= rule.getMaxAge();
-
-        boolean triggersOk = rule.getMinTriggers() == null ||
-                rp.getTriggers() >= rule.getMinTriggers();
-
-        return genderOk && ageOk && triggersOk;
+    /**
+     * Executes a custom business rule dynamically using reflection
+     *
+     * @param rule the rule containing the handler class to execute
+     * @param reportingPatient the patient data used for rule evaluation
+     * @return an {@link Optional} containing the evaluation result, or an empty {@code Optional} if no alert is produced
+     * @throws ReflectiveOperationException if an error occurs while instantiating or invoking the custom rule
+     */
+    private Optional<String> executeCustomRule(Rule rule, ReportingPatient reportingPatient)
+            throws ReflectiveOperationException {
+        IBusinessRule customRule = (IBusinessRule)
+                Class.forName(rule.getHandlerClass())
+                        .getDeclaredConstructor()
+                        .newInstance();
+        return customRule.evaluate(reportingPatient);
     }
 }

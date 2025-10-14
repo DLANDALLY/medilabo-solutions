@@ -1,8 +1,8 @@
 package org.medilabo.reporting_service.model;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Trigger {
     private String name;
 }

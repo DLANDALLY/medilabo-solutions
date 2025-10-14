@@ -4,7 +4,8 @@ business-triggers:
     - name: Microalbumine
     - name: Taille
     - name: Poids
-    - name: Fumeur/Fumeuse
+    - name: Fumeur
+    - name: Fumeuse
     - name: Anormal
     - name: Cholestérol
     - name: Vertiges

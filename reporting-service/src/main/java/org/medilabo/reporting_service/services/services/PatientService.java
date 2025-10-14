@@ -8,7 +8,6 @@ import org.medilabo.reporting_service.services.interfaces.IPatient;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class PatientService implements IPatient {
@@ -22,18 +21,13 @@ public class PatientService implements IPatient {
 
     @Override
     public PatientDto getPatientDto(Long id){
-        System.out.println("# GET PATIENT DTO #");
         Patient patient = patientClient.getPatientById(id);
-        System.out.println("## Patient "+ patient);
         return modelMapper.map(patient, PatientDto.class);
     }
 
     @Override
     public HistoricalDto getMedicalRecordByPatientId(Long id) {
-        System.out.println("# GET MEDICAL #");
-        HistoricalDto historicalDto = patientClient.getMedicalRecordByPatientId(id);
-        System.out.println("## Medical -> "+ historicalDto);
-        return historicalDto;
+        return patientClient.getMedicalRecordByPatientId(id);
     }
 
 

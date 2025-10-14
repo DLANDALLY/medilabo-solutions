@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TriggerService implements ITrigger {
@@ -19,10 +20,13 @@ public class TriggerService implements ITrigger {
 
     @Override
     public long countTriggers(List<String> words) {
-        Set<String> triggers = new HashSet<>(getAllTriggers());
+        Set<String> triggers = new HashSet<>(getAllTriggers())
+                .stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
 
         return words.stream()
-                .map(String::toLowerCase) // normalise si besoin
+                .map(String::toLowerCase)
                 .filter(triggers::contains)
                 .count();
     }

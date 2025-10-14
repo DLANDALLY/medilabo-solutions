@@ -10,4 +10,11 @@ public class ReportingPatient {
     private String genre;
     private int age;
     private int triggers;
+    private String alert;
+
+    public ReportingPatient(String genre, int age, int triggers) {
+        this.genre = genre;
+        this.age = age;
+        this.triggers = triggers;
+    }
 }

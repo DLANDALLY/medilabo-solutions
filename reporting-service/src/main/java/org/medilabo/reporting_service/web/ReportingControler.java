@@ -19,16 +19,13 @@ public class ReportingControler {
 
     @GetMapping("/all")
     public ResponseEntity<?> getTestAlert(){
-        System.out.println("# Reporting 1 #");
         String messageAlert = testAlert.processAlert(new ReportingPatient("F", 25,4));
-        System.out.println("# message #"+ messageAlert);
         return ResponseEntity.ok(messageAlert);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getReportingPatient(@PathVariable Long id){
-        System.out.println("## GET reporting ##");
-        ReportingPatient reportingPatient = reportingService.getReportingPatient(id);
+        ReportingPatient reportingPatient = reportingService.getReportingById(id);
         return ResponseEntity.ok(reportingPatient);
     }
 }
