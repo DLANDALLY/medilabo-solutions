@@ -87,6 +87,15 @@ services:
       medilabo-config-service:
         condition: service_healthy
 
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - medilabo-gateway-service
+    environment:
+      - API_URL=http://medilabo-gateway-service:8888
+
   medilabo-gateway-service:
     build: ./gateway-service
     container_name: medilabo-gateway-service
