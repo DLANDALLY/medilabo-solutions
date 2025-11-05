@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,23 +21,6 @@ public class MedicalRecordServiceImpl implements IMedicalRecord {
     private MedicalRecordRepository medicalRepository;
     private final ModelMapper modelMapper;
     private final IPatientLocal patientService;
-
-//    @Override
-//    public List<HistoricalDto> getAllMedicalHistorical() {
-//        List<MedicalRecord> medicalRecords = getAllMedicalRecords();
-//        List<PatientLocal> patientList = patientService.getAllPatient();
-//        return patientList.stream()
-//                .map(p -> {
-//                    HistoricalDto historicalDto = new HistoricalDto();
-//                    historicalDto.setPatient(p);
-//                    medicalRecords.stream()
-//                            .filter(mr -> Objects.equals(mr.getPatientId(), p.getId()))
-//                            .map(mr -> modelMapper.map(mr, MedicalHistoricalDto.class))
-//                            .forEach(historicalDto.getMedicalHistoricalDtos()::add);
-//                    return historicalDto;
-//                })
-//                .collect(Collectors.toList());
-//    }
 
     @Override
     public HistoricalDto getMedicalHistoryByPatientId(Long patientId){
@@ -72,13 +53,6 @@ public class MedicalRecordServiceImpl implements IMedicalRecord {
 
         medicalRepository.save(medicalRecord);
     }
-
-//    @Override
-//    public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
-//        if (medicalRecord == null)
-//            throw new NullPointerException("The form cannot be null");
-//        return medicalRepository.save(medicalRecord);
-//    }
 
     private List<MedicalRecord> getAllMedicalRecords() { return medicalRepository.findAll(); }
 

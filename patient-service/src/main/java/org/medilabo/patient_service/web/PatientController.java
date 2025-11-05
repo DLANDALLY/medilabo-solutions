@@ -44,10 +44,4 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-//        if (patientService.deletePatient(id))
-//            return ResponseEntity.noContent().build();
-//        return ResponseEntity.notFound().build();
-//    }
 }

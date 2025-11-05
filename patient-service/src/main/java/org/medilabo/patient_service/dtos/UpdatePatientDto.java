@@ -28,9 +28,11 @@ public class UpdatePatientDto {
     @NotBlank(message = "Gender is required")
     private String gender;
 
-    @Size(max = 255, message = "Postal address cannot exceed 255 characters.")
+    @Size(max = 255, message = "Postal address cannot exceed 255 characters")
     private String postalAddress;
 
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid (10 to 15 digits).")
+    @Pattern(
+            regexp = "^\\+?[0-9\\s-]{10,20}$",
+            message = "Phone number must contain only digits, spaces or dashes")
     private String phoneNumber;
 }

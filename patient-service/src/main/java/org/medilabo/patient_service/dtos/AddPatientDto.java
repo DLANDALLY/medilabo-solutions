@@ -1,16 +1,15 @@
 package org.medilabo.patient_service.dtos;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter @Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class AddPatientDto {
     private Long id;
 
@@ -30,9 +29,13 @@ public class AddPatientDto {
     @NotBlank(message = "Gender is required")
     private String gender;
 
-    @Size(max = 255, message = "Postal address cannot exceed 255 characters.")
+    @Size(max = 255, message = "Postal address cannot exceed 255 characters")
+    @Nullable
     private String postalAddress;
 
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid (10 to 15 digits).")
+    @Pattern(
+            regexp = "^\\+?[0-9\\s-]{10,20}$",
+            message = "Phone number must contain only digits, spaces or dashes")
+    @Nullable
     private String phoneNumber;
 }

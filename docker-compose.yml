@@ -28,6 +28,27 @@ services:
       medilabo-discovery-service:
         condition: service_healthy
 
+  medilabo-security-service:
+    build: ./auth-service
+    container_name: medilabo-security-service
+    ports:
+      - '8080:8080'
+    expose:
+      - '8080'
+    environment:
+      - JWT_SECRET=bXlTdXBlclNlY3VyZVNlY3JldEtleU15U3VwZXJTZWNyZXJLZXk=
+      - DISCOVERY_SERVICE_URL=http://medilabo-discovery-service:8761/eureka
+      - eureka.client.service-url.defaultZone=http://medilabo-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://medilabo-config-service:9999
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 15s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      medilabo-config-service:
+        condition: service_healthy
+
   medilabo-patient-service:
     build: ./patient-service
     container_name: medilabo-patient-service
@@ -107,6 +128,7 @@ services:
       - DISCOVERY_SERVICE_URL=http://medilabo-discovery-service:8761/eureka
       - CONFIG_SERVICE_URL=http://medilabo-config-service:9999
       - eureka.client.service-url.defaultZone=http://medilabo-discovery-service:8761/eureka
+      - JWT_SECRET=bXlTdXBlclNlY3VyZVNlY3JldEtleU15U3VwZXJTZWNyZXJLZXk=
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 10s

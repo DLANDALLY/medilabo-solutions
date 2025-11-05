@@ -15,11 +15,6 @@ public class PatientLocalServiceImpl implements IPatientLocal {
     private PatientLocalRepository patientRepository;
 
     @Override
-    public List<PatientLocal> getAllPatient(){
-        return patientRepository.findAll();
-    }
-
-    @Override
     public PatientLocal getPatientLocalById(Long id){
         return patientRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("The Patient not found with ID: "+ id));

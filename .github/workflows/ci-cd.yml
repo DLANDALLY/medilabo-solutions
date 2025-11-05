@@ -1,0 +1,47 @@
+name: Java CI - Medilabo Microservices
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Récupérer le code source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Étape 2 : Installer Java 21
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      # Étape 3 : Vérifier les versions
+      - name: Display environment info
+        run: |
+          java -version
+          mvn -version
+
+      # Étape 4 : Build & Test des microservices
+      - name: Build and test all microservices
+        run: |
+          mvn -B clean test --file ./discovery-service/pom.xml
+          mvn -B clean test --file ./config-service/pom.xml
+          mvn -B clean test --file ./auth-service/pom.xml
+          mvn -B clean test --file ./patient-service/pom.xml
+          mvn -B clean test --file ./medical-record-service/pom.xml
+          mvn -B clean test --file ./reporting-service/pom.xml
+          mvn -B clean test --file ./gateway-service/pom.xml
+
+      # Étape 5 : Build du frontend (Angular)
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build

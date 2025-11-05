@@ -1,21 +1,17 @@
-package org.medilabo.reporting_service.services.fallBack;
+package org.medilabo.medical_record_service.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClientFallbackTest {
+class PatientLocalServiceImplTest {
 
     @BeforeEach
     void setUp() {
     }
 
     @Test
-    void getPatientById() {
-    }
-
-    @Test
-    void getMedicalRecordByPatientId() {
+    void getPatientLocalById() {
     }
 }

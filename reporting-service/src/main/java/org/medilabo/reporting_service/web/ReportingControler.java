@@ -17,12 +17,6 @@ public class ReportingControler {
     private IAlert testAlert;
     private IReporting reportingService;
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getTestAlert(){
-        String messageAlert = testAlert.processAlert(new ReportingPatient("F", 25,4));
-        return ResponseEntity.ok(messageAlert);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getReportingPatient(@PathVariable Long id){
         ReportingPatient reportingPatient = reportingService.getReportingById(id);

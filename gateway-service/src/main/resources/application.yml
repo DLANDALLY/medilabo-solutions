@@ -1,18 +1,12 @@
 spring:
   cloud:
     gateway:
-      globalcors:
-        add-to-simple-url-handler-mapping: true
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:4200"  # ton Angular local
-              - "http://localhost"       # ton conteneur Nginx
-            allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      default-filters:
+        - AddRequestHeader=Authorization, "#{request.headers.Authorization}"
+
+jwt:
+  secret: ${JWT_SECRET:bXlTdXBlclNlY3VyZVNlY3JldEtleU15U3VwZXJTZWNyZXJLZXk=}

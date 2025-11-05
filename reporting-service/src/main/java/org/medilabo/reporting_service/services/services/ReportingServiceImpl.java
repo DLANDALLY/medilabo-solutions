@@ -36,8 +36,8 @@ public class ReportingServiceImpl implements IReporting {
     public ReportingPatient getReportingById(Long id){
         ReportingPatient reportingPatient = createReportingPatient(id);
         String alert = alertService.processAlert(reportingPatient);
-
         reportingPatient.setAlert(alert);
+
         return reportingPatient;
     }
 
@@ -52,7 +52,6 @@ public class ReportingServiceImpl implements IReporting {
     private ReportingPatient createReportingPatient(Long id) {
         PatientDto patientDto = patientService.getPatientDto(id);
         HistoricalDto historicalDto = patientService.getMedicalRecordByPatientId(id);
-
         int age = getAge(patientDto.getDateOfBirth());
         int triggerNumber = getTriggersNumber(historicalDto.getMedicalHistoricalDtos());
 

@@ -3,7 +3,6 @@ spring:
     import:
       - classpath:rules.yml
       - classpath:triggers.yml
-
   cloud:
     openfeign:
       discovery:

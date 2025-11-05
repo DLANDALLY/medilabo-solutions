@@ -1,12 +1,12 @@
 package org.medilabo.medical_record_service.dtos;
 
-import jakarta.persistence.Lob;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class MedicalHistoricalDto {
     private String id;
-    @Lob
     private String note;
 }

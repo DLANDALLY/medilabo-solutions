@@ -67,10 +67,10 @@ public class RuleEngine {
      */
     private Optional<String> executeCustomRule(Rule rule, ReportingPatient reportingPatient)
             throws ReflectiveOperationException {
-        IBusinessRule customRule = (IBusinessRule)
-                Class.forName(rule.getHandlerClass())
+        IBusinessRule customRule = (IBusinessRule) Class.forName(rule.getHandlerClass())
                         .getDeclaredConstructor()
                         .newInstance();
+
         return customRule.evaluate(reportingPatient);
     }
 }

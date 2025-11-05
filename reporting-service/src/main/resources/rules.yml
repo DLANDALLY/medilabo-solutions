@@ -43,5 +43,5 @@ business-rules:
       message: "Symptômes précoces chez un adulte"
 
     - name: Borderline
-      handlerClass: org.medilabo.reporting_service.services.riskLevel.Borderline
+      handlerClass: org.medilabo.reporting_service.services.specificbusinessrule.Borderline
 
