@@ -2,7 +2,6 @@ package org.medilabo.reporting_service.services.specificbusinessrule;
 
 import org.medilabo.reporting_service.model.ReportingPatient;
 import org.medilabo.reporting_service.services.interfaces.IBusinessRule;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

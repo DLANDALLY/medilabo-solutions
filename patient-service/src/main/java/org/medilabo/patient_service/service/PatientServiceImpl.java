@@ -1,6 +1,5 @@
 package org.medilabo.patient_service.service;
 
-import jakarta.ws.rs.NotFoundException;
 import org.medilabo.patient_service.dtos.AddPatientDto;
 import org.medilabo.patient_service.dtos.PatientEvent;
 import org.medilabo.patient_service.dtos.UpdatePatientDto;

@@ -1,6 +1,5 @@
 package org.medilabo.reporting_service.web;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.medilabo.reporting_service.exceptions.ErrorResponse;
 import org.medilabo.reporting_service.exceptions.ResourceNotFoundException;

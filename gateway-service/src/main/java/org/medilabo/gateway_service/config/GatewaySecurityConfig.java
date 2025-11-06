@@ -30,7 +30,6 @@ public class GatewaySecurityConfig {
                         .pathMatchers("/api/internal/**", "/PATIENT-SERVICE/**", "/MEDICAL-RECORD-SERVICE/**").permitAll()
                         .pathMatchers("/eureka/**").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
-                        //.pathMatchers("/PATIENT-SERVICE/**", "/MEDICAL-RECORD-SERVICE/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

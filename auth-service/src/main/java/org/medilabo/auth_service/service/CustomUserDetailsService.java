@@ -1,6 +1,5 @@
 package org.medilabo.auth_service.service;
 
-import org.medilabo.auth_service.entity.UserEntity;
 import org.medilabo.auth_service.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

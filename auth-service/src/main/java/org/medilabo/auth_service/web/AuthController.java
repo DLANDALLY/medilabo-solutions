@@ -1,6 +1,5 @@
 package org.medilabo.auth_service.web;
 
-
 import org.medilabo.auth_service.model.AuthRequest;
 import org.medilabo.auth_service.model.AuthResponse;
 import org.medilabo.auth_service.service.JwtService;

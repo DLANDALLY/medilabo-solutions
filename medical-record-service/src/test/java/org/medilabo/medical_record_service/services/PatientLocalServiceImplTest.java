@@ -1,15 +1,12 @@
 package org.medilabo.medical_record_service.services;
 
-import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.medilabo.medical_record_service.entities.PatientLocal;
 import org.medilabo.medical_record_service.repositories.PatientLocalRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 

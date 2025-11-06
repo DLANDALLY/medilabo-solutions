@@ -1,19 +1,16 @@
 package org.medilabo.patient_service;
 
-import org.medilabo.patient_service.config.GloblaConfig;
 import org.medilabo.patient_service.dtos.AddPatientDto;
 import org.medilabo.patient_service.entites.enums.EGender;
 import org.medilabo.patient_service.service.PatientServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 
 @SpringBootApplication
-@EnableConfigurationProperties(GloblaConfig.class)
 public class PatientServiceApplication {
 
 	public static void main(String[] args) {
