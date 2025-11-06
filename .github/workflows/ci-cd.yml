@@ -39,6 +39,12 @@ jobs:
           mvn -B clean test --file ./reporting-service/pom.xml
           mvn -B clean test --file ./gateway-service/pom.xml
 
+      - name: Checkout frontend repository
+        uses: actions/checkout@v4
+        with:
+          repository: DLANDALLY/medilabo-solutions-frontend
+          path: frontend
+
       # Étape 5 : Build du frontend (Angular)
       - name: Build frontend
         run: |
