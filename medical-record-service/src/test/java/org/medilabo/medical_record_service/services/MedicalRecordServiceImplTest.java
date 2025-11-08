@@ -76,6 +76,7 @@ class MedicalRecordServiceImplTest {
 
     @Test
     void shouldAddNoteAndReturnHistoricalDto() {
+        when(patientService.existingPatient(1L)).thenReturn(true);
         when(patientService.getPatientLocalById(1L)).thenReturn(patientLocal);
         when(medicalRepository.findByPatientId(1L)).thenReturn(List.of(medicalRecord));
         when(modelMapper.map(any(MedicalRecord.class), eq(MedicalHistoricalDto.class)))

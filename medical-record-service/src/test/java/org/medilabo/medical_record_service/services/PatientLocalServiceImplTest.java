@@ -49,4 +49,24 @@ class PatientLocalServiceImplTest {
         assertThrows(RuntimeException.class, () -> patientLocalService.getPatientLocalById(99L));
     }
 
+    @Test
+    void shouldReturnTrueWhenPatientExists() {
+        Long patientId = 1L;
+        when(patientRepository.existsById(patientId)).thenReturn(true);
+
+        boolean result = patientLocalService.existingPatient(patientId);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenPatientDoesNotExist() {
+        Long patientId = 987L;
+        when(patientRepository.existsById(patientId)).thenReturn(false);
+
+        boolean result = patientLocalService.existingPatient(patientId);
+
+        assertFalse(result);
+    }
+
 }

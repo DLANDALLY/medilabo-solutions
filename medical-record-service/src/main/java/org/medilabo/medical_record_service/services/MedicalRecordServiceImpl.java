@@ -35,6 +35,9 @@ public class MedicalRecordServiceImpl implements IMedicalRecord {
 
     @Override
     public HistoricalDto addNewNote(Long patientId, MedicalHistoricalDto medicalHistoricalDto) {
+        if (!patientService.existingPatient(patientId))
+            throw new RuntimeException("The patient does not exist");
+
         HistoricalDto historicalDto = getMedicalHistoryByPatientId(patientId);
 
         if (historicalDto.getMedicalHistoricalDtos() == null)
